@@ -1,5 +1,6 @@
 name: Continuous Integration
-"on":
+
+on:
     push:
         branches:
             - main
@@ -16,15 +17,18 @@ jobs:
             - name: Set up Python
               uses: actions/setup-python@v5
               with:
-                python-version: '3.13.7'
+                  python-version: "3.11"
             - name: Install Dependencies
               run: |
-                python -m pip install --upgrade pip
-                pip install -r requirements.txt
-
+                  python -m pip install --upgrade pip
+                  pip install -r requirements.txt
+            - name: Lint with ruff
+              run: |
+                  pip install ruff
+                  ruff check .
+            - name: Check formatting with black
+              run: |
+                  black --check .
             - name: Run tests
               run: |
-                pytest
-            
-
-        
+                  pytest
